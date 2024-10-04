@@ -27,7 +27,7 @@ EcoRanger leverages immersive storytelling, real NASA data, and hands-on learnin
 By engaging in protocol-based tasks and simulations, kids will earn badges that mark their progress, empowering them to take real-world actions and make informed decisions about environmental sustainability.
 
 ## Team
-**Team EcoRangers** is composed of five passionate individuals dedicated to creating an impactful learning experience for kids. Led by **Fuad Hasan**, the team includes **Abdullah Fahim**, **Saikot Hasan**, **Naim Siddique**, and **Ambia Omor Faiza**. With expertise in environmental science, technology, and game design, the team has crafted EcoRanger to be both fun and educational, inspiring the next generation to care for the environment.
+**Team EcoRangers** is composed of five passionate individuals dedicated to creating an impactful learning experience for kids. Led by **Fuad Hasan**, the team includes **Abdullah Fahim**, **Saikot Hasan**, **Naim Siddiqui**, and **Ambia Omor Faiza**. With expertise in environmental science, technology, and game design, the team has crafted EcoRanger to be both fun and educational, inspiring the next generation to care for the environment.
 
 ## Future Vision
 EcoRanger is not just a game; it’s a step towards creating a more environmentally conscious generation. The project aims to expand with **40 additional protocols** and **AI-driven personalized guidelines**, enabling children to continue learning and taking actionable steps to protect the environment long after they complete the game's current tasks.
