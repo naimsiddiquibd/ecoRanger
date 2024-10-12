@@ -3,35 +3,33 @@ import React, { useEffect, useState } from 'react';
 import welcomeScreenBackgroundImage from "@/assets/images/s1-bg.png";
 import * as NavigationBar from 'expo-navigation-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 const avatars = [
     require("@/assets/images/AvatarChoose/poki.png"),
-    require('@/assets/images/AvatarChoose/joe.png'), // Joe avatar
+    require('@/assets/images/AvatarChoose/joe.png'),
     require('@/assets/images/AvatarChoose/moki.png'),
 ];
 
 const AvatarChoose = () => {
-    // Set the default selected avatar to the Joe avatar
-    const [selectedAvatar, setSelectedAvatar] = useState(avatars[1]); // Index 1 corresponds to Joe
+    const [selectedAvatar, setSelectedAvatar] = useState(avatars[1]); 
+    const navigation = useNavigation(); // For navigating to the next screen
 
     useEffect(() => {
         NavigationBar.setVisibilityAsync('hidden');
-
         return () => {
             NavigationBar.setVisibilityAsync('visible');
         };
     }, []);
-
-    const handleAvatarSelect = (avatar) => {
-        setSelectedAvatar(avatar);
-    };
 
     const handleChoose = async () => {
         if (selectedAvatar) {
             try {
                 // Save the selected avatar to local storage
                 await AsyncStorage.setItem('selectedAvatar', JSON.stringify(selectedAvatar));
-                Alert.alert("Success", "Avatar chosen successfully!");
+                // Alert.alert("Success", "Avatar chosen successfully!");
+                router.push("/PersonalInformation");
             } catch (error) {
                 Alert.alert("Error", "Failed to save avatar.");
             }
@@ -39,6 +37,8 @@ const AvatarChoose = () => {
             Alert.alert("Warning", "Please select an avatar.");
         }
     };
+
+    const router = useRouter();
 
     return (
         <View className="flex-1">
@@ -55,11 +55,11 @@ const AvatarChoose = () => {
                         resizeMode="contain"
                     />
                 </View>
-                <View className="flex-row space-x-4 mb-[90px]">
+                <View className="flex-row space-x-7 mb-[90px]">
                     {avatars.map((avatar, index) => (
                         <TouchableOpacity
                             key={index}
-                            onPress={() => handleAvatarSelect(avatar)}
+                            onPress={() => setSelectedAvatar(avatar)}
                             className={`rounded-lg overflow-hidden ${selectedAvatar === avatar ? 'scale-[1.2]' : ''}`}
                         >
                             <Image
