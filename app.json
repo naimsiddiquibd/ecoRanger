@@ -8,7 +8,7 @@
     "scheme": "ecoRanger",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash-screen.png",
+      "image": "./assets/images/splashScreen.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
