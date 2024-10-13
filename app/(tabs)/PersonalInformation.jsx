@@ -9,9 +9,12 @@ import { useFonts } from 'expo-font';
 import CountryPicker from 'react-native-country-picker-modal'; // Import Country Picker
 
 const PersonalInformation = () => {
-    const [name, setName] = useState('');
-    const [countryCode, setCountryCode] = useState('US'); // Default country code
-    const [country, setCountry] = useState(null); // Holds selected country object
+    const [name, setName] = useState('xxx');
+    const [countryCode, setCountryCode] = useState('US'); // Default country code for United States
+    const [country, setCountry] = useState({
+        name: 'United States', // Default country name
+        cca2: 'US'
+    });
 
     useEffect(() => {
         NavigationBar.setVisibilityAsync('hidden');
@@ -76,8 +79,8 @@ const PersonalInformation = () => {
                             placeholder="EchoRanger"
                             value={name}
                             onChangeText={setName}
-                            className=" bg-white p-2 rounded-lg w-36 h-[35px] font-bold text-gray-900"
-                            style={{ fontFamily: 'EchoRanger', fontSize: 16, color: '#333333' }} // Use EchoRanger font and custom color
+                            className=" bg-white p-2 rounded-lg w-36 h-[35px] text-[16px] font-bold text-gray-600"
+                            // Use EchoRanger font and custom color
                         />
                         <Text className="mt-2 text-gray-700" style={{ fontFamily: 'MineCrafter', fontSize: 10 }}>
                             CHOOSE COUNTRY
@@ -86,7 +89,6 @@ const PersonalInformation = () => {
                             <CountryPicker
                                 countryCode={countryCode}
                                 withFlag
-                                
                                 withFilter
                                 onSelect={(selectedCountry) => {
                                     setCountryCode(selectedCountry.cca2);
@@ -94,11 +96,9 @@ const PersonalInformation = () => {
                                 }}
                                 containerButtonStyle={{ flexDirection: 'row', alignItems: 'center' }} // Aligns flag and name side by side
                             />
-                            {country && (
-                                <Text className="text-[16px] font-bold -ml-2 text-[#ACACB2]">
-                                    {country.name}
-                                </Text>
-                            )}
+                            <Text className="text-[16px] font-bold -ml-2 text-gray-600">
+                                {country?.name || 'United States'}
+                            </Text>
                         </View>
                     </View>
                 </View>
@@ -116,6 +116,7 @@ const PersonalInformation = () => {
 };
 
 export default PersonalInformation;
+
 
 
 
