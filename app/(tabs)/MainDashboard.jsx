@@ -34,10 +34,10 @@ const MainDashboard = () => {
     return (
         <View className="flex-1">
             <StatusBar hidden={true} />
-            {/* {avatar && <Image source={avatar} style={{ width: 100, height: 150 }} />}
+            {avatar && <Image source={avatar} style={{ width: 100, height: 150 }} />}
             <Text>Name: {name}</Text>
             <Text>Country: {country}</Text>
-            <Text>Coins: {coins}</Text> */}
+            <Text>Coins: {coins}</Text>
             <ImageBackground
                 source={welcomeScreenBackgroundImage}
                 resizeMode='cover'
