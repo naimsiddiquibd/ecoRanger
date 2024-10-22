@@ -9,7 +9,7 @@ import { useFonts } from 'expo-font';
 import CountryPicker from 'react-native-country-picker-modal'; // Import Country Picker
 
 const PersonalInformation = () => {
-    const [name, setName] = useState('xxx');
+    const [name, setName] = useState('Pookie');
     const [countryCode, setCountryCode] = useState('US'); // Default country code for United States
     const [country, setCountry] = useState({
         name: 'United States', // Default country name
