@@ -24,11 +24,16 @@ const AvatarChoose = () => {
     }, []);
 
     const handleChoose = async () => {
+        console.log("hitted from avatar choosing")
         if (selectedAvatar) {
             try {
+                // Clear all existing data in local storage
+                await AsyncStorage.clear();
+                
                 // Save the selected avatar to local storage
                 await AsyncStorage.setItem('selectedAvatar', JSON.stringify(selectedAvatar));
-                // Alert.alert("Success", "Avatar chosen successfully!");
+                
+                // Navigate to the next screen
                 router.push("/PersonalInformation");
             } catch (error) {
                 Alert.alert("Error", "Failed to save avatar.");
@@ -37,6 +42,7 @@ const AvatarChoose = () => {
             Alert.alert("Warning", "Please select an avatar.");
         }
     };
+    
 
     const router = useRouter();
 

@@ -24,6 +24,7 @@ const PersonalInformation = () => {
     }, []);
 
     const handleSave = async () => {
+        console.log("Hitted personal information");
         if (name && country) {
             try {
                 await AsyncStorage.setItem('userName', name);

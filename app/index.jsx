@@ -30,7 +30,7 @@ const App = () => {
     const handlePressOut = () => {
         Animated.spring(scaleAnim, {
             toValue: 1,
-            friction: 3,
+            friction: 8,
             tension: 100,
             useNativeDriver: true,
         }).start(() => {
