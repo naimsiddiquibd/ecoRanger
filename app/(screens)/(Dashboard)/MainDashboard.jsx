@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Button, StatusBar, ImageBackground } from 'react-native';
+import { View, Text, Image, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as NavigationBar from 'expo-navigation-bar';
 import welcomeScreenBackgroundImage from "@/assets/images/s1-bg.png";
+import Profile from "@/assets/images/Icons/profile.png";
+import Settings from "@/assets/images/Icons/settings.png";
+import Location from "@/assets/images/Icons/location.png";
+import BackArrow from "@/assets/images/Icons/back-arrow.png";
+import HamMenu from "@/assets/images/Icons/hamburger-menu.png";
+import GroupPeople from "@/assets/images/Icons/group-of-people.png";
+import Calendar from "@/assets/images/Icons/calendar.png";
+import CountBoard from "@/assets/images/Dashboard/coin-board.png";
+import Research from "@/assets/images/Dashboard/research.png";
 
 const MainDashboard = () => {
     const [avatar, setAvatar] = useState(null);
@@ -33,16 +42,44 @@ const MainDashboard = () => {
 
     return (
         <View className="flex-1">
-            <StatusBar hidden={true} />
-            {avatar && <Image source={avatar} style={{ width: 100, height: 150 }} />}
-            <Text>Name: {name}</Text>
-            <Text>Country: {country}</Text>
-            <Text>Coins: {coins}</Text>
             <ImageBackground
                 source={welcomeScreenBackgroundImage}
                 resizeMode='cover'
                 className="flex-1 justify-start items-center"
-            ></ImageBackground>
+            >
+                {/* Top Left Corner */}
+                <View className="absolute top-3 left-3">
+                    <View className="flex-row gap-3">
+                        <Image source={Profile} className="w-12 h-12"/>
+                        <Image source={CountBoard} className=" h-12" />
+                    </View>
+                    <View>
+                        <Image source={Settings} className="w-12 h-12" />
+                    </View>
+                </View>
+
+                {/* Top Right Corner */}
+                <View className="absolute top-3 right-3">
+                    <View className="flex-row gap-2">
+                        <Image source={Research} className="h-12" />
+                        <Image source={Calendar} className="w-12 h-12" />
+                        <Image source={GroupPeople} className="w-12 h-12" />
+                        <Image source={HamMenu} className="w-12 h-12" />
+                    </View>
+                </View>
+
+                {/* Bottom Left Corner */}
+                <View className="absolute bottom-3 left-3">
+                    <Image source={Location} className="w-12 h-12" />
+                    <Image source={BackArrow} className="w-12 h-12" />
+                </View>
+
+                {/* Bottom Right Corner */}
+                <View className="absolute bottom-2 right-3">
+                    <Image source={Profile} className="w-12 h-12" />
+                </View>
+                <Text className="mt-28">x</Text>
+            </ImageBackground>
         </View>
     );
 };

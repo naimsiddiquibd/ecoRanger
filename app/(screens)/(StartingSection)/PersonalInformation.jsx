@@ -5,14 +5,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import welcomeScreenBackgroundImage from "@/assets/images/s1-bg.png";
 import formBG from "@/assets/images/PersonalInformation/form-bg.png";
+import avatar4Image from "@/assets/images/Characters/poki.png";
+import avatar5Image from "@/assets/images/Characters/joe.png";
+import avatar6Image from "@/assets/images/Characters/moki.png";
 import { useFonts } from 'expo-font';
-import CountryPicker from 'react-native-country-picker-modal'; // Import Country Picker
+import CountryPicker from 'react-native-country-picker-modal';
 
 const PersonalInformation = () => {
     const [name, setName] = useState('Pookie');
-    const [countryCode, setCountryCode] = useState('US'); // Default country code for United States
+    const [countryCode, setCountryCode] = useState('US');
     const [country, setCountry] = useState({
-        name: 'United States', // Default country name
+        name: 'United States',
         cca2: 'US'
     });
 
@@ -23,17 +26,26 @@ const PersonalInformation = () => {
         };
     }, []);
 
+    const [avatar, setAvatar] = useState(null);
+
+    useEffect(() => {
+        const loadData = async () => {
+            const storedAvatar = await AsyncStorage.getItem('selectedAvatar');
+            setAvatar(storedAvatar ? JSON.parse(storedAvatar) : null);
+        };
+        loadData();
+    }, []);
+
     const handleSave = async () => {
-        console.log("Hitted personal information");
         if (name && country) {
             try {
                 await AsyncStorage.setItem('userName', name);
                 await AsyncStorage.setItem('userCountry', country.name);
-                await AsyncStorage.setItem('userCoins', '100'); // Set default coins to 100
-                Alert.alert('Success', 'Profile saved successfully!');
+                await AsyncStorage.setItem('userCoins', '100');
+                console.log('Success', 'Profile saved successfully!');
                 router.push("/MainDashboard");
             } catch (error) {
-                Alert.alert('Error', 'Failed to save data.');
+                console.log('Error', 'Failed to save data.');
             }
         } else {
             Alert.alert('Error', 'Please fill in both fields.');
@@ -44,12 +56,14 @@ const PersonalInformation = () => {
 
     const [loaded] = useFonts({
         'MineCrafter': require('@/assets/fonts/MineCrafter 3 Regular.ttf'),
-        'EchoRanger': require('@/assets/fonts/SpaceMono-Regular.ttf'), // Add custom EchoRanger font
+        'EchoRanger': require('@/assets/fonts/SpaceMono-Regular.ttf'),
     });
 
     if (!loaded) {
         return <Text>Loading...</Text>;
     }
+
+    const avatarImageSource = avatar === 4 ? avatar4Image : avatar === 5 ? avatar5Image : avatar === 6 ? avatar6Image : null;
 
     return (
         <View className="flex-1">
@@ -72,6 +86,13 @@ const PersonalInformation = () => {
                         className="w-auto h-48 rounded-lg"
                         resizeMode="contain"
                     />
+                    <View className="absolute top-6 left-3">
+                        <Image
+                            source={avatarImageSource}
+                            className="w-auto h-36 rounded-lg"
+                            resizeMode="contain"
+                        />
+                    </View>
                     <View className="absolute top-10 left-40">
                         <Text className=" text-gray-700" style={{ fontFamily: 'MineCrafter', fontSize: 10 }}>
                             ENTER NAME
@@ -81,7 +102,6 @@ const PersonalInformation = () => {
                             value={name}
                             onChangeText={setName}
                             className=" bg-white p-2 rounded-lg w-36 h-[35px] text-[16px] font-bold text-gray-600"
-                            // Use EchoRanger font and custom color
                         />
                         <Text className="mt-2 text-gray-700" style={{ fontFamily: 'MineCrafter', fontSize: 10 }}>
                             CHOOSE COUNTRY
@@ -95,7 +115,7 @@ const PersonalInformation = () => {
                                     setCountryCode(selectedCountry.cca2);
                                     setCountry(selectedCountry);
                                 }}
-                                containerButtonStyle={{ flexDirection: 'row', alignItems: 'center' }} // Aligns flag and name side by side
+                                containerButtonStyle={{ flexDirection: 'row', alignItems: 'center' }}
                             />
                             <Text className="text-[16px] font-bold -ml-2 text-gray-600">
                                 {country?.name || 'United States'}
@@ -117,22 +137,3 @@ const PersonalInformation = () => {
 };
 
 export default PersonalInformation;
-
-
-
-
-// <View className="mt-20">
-//     <TextInput
-//         placeholder="Enter your name"
-//         value={name}
-//         onChangeText={setName}
-//         style={{ borderBottomWidth: 1, marginBottom: 12 }}
-//     />
-//     <TextInput
-//         placeholder="Enter your country"
-//         value={country}
-//         onChangeText={setCountry}
-//         style={{ borderBottomWidth: 1, marginBottom: 12 }}
-//     />
-//     <Button title="Save and Continue" onPress={handleSave} />
-// </View>
