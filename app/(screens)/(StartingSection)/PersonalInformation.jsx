@@ -35,6 +35,7 @@ const PersonalInformation = () => {
         };
         loadData();
     }, []);
+    console.log("Avatar:", avatar);
 
     const handleSave = async () => {
         if (name && country) {
@@ -63,7 +64,7 @@ const PersonalInformation = () => {
         return <Text>Loading...</Text>;
     }
 
-    const avatarImageSource = avatar === 4 ? avatar4Image : avatar === 5 ? avatar5Image : avatar === 6 ? avatar6Image : null;
+    const avatarImageSource = avatar === 1 ? avatar4Image : avatar === 2 ? avatar5Image : avatar === 3 ? avatar6Image : null;
 
     return (
         <View className="flex-1">
@@ -86,10 +87,10 @@ const PersonalInformation = () => {
                         className="w-auto h-48 rounded-lg"
                         resizeMode="contain"
                     />
-                    <View className="absolute top-6 left-3">
+                    <View className="absolute bottom-7 left-5">
                         <Image
                             source={avatarImageSource}
-                            className="w-auto h-36 rounded-lg"
+                            className="w-36 h-36 rounded-lg"
                             resizeMode="contain"
                         />
                     </View>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ImageBackground } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Image, ImageBackground, Pressable, Animated, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as NavigationBar from 'expo-navigation-bar';
 import welcomeScreenBackgroundImage from "@/assets/images/s1-bg.png";
@@ -9,15 +9,24 @@ import Location from "@/assets/images/Icons/location.png";
 import BackArrow from "@/assets/images/Icons/back-arrow.png";
 import HamMenu from "@/assets/images/Icons/hamburger-menu.png";
 import GroupPeople from "@/assets/images/Icons/group-of-people.png";
+import FunLearn from "@/assets/images/Icons/fun-and-learn.png";
+import PlayGame from "@/assets/images/Icons/play-game.png";
 import Calendar from "@/assets/images/Icons/calendar.png";
+import Qmark from "@/assets/images/Icons/question-mark.png";
 import CountBoard from "@/assets/images/Dashboard/coin-board.png";
+import LetsPlayAGame from "@/assets/images/Dashboard/message-play-game.png";
 import Research from "@/assets/images/Dashboard/research.png";
+import avatar4Image from "@/assets/images/Characters/poki.png";
+import avatar5Image from "@/assets/images/Characters/joe.png";
+import avatar6Image from "@/assets/images/Characters/moki.png";
+import { router } from 'expo-router';
 
 const MainDashboard = () => {
     const [avatar, setAvatar] = useState(null);
     const [name, setName] = useState('');
     const [country, setCountry] = useState('');
     const [coins, setCoins] = useState(0);
+    const scaleAnim = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {
         const loadData = async () => {
@@ -40,8 +49,31 @@ const MainDashboard = () => {
         };
     }, []);
 
+    const avatarImageSource = avatar === 1 ? avatar4Image : avatar === 2 ? avatar5Image : avatar === 3 ? avatar6Image : null;
+
+    const handlePressIn = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 0.9,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handlePressOut = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1,
+            friction: 8,
+            tension: 100,
+            useNativeDriver: true,
+        }).start(() => {
+            // Navigate to the AvatarChoose route after animation completes
+            router.push("/GameSelectionDashboard");
+        });
+        console.log('Play pressed!');
+    };
+
     return (
         <View className="flex-1">
+             <StatusBar hidden={true} />
             <ImageBackground
                 source={welcomeScreenBackgroundImage}
                 resizeMode='cover'
@@ -50,7 +82,7 @@ const MainDashboard = () => {
                 {/* Top Left Corner */}
                 <View className="absolute top-3 left-3">
                     <View className="flex-row gap-3">
-                        <Image source={Profile} className="w-12 h-12"/>
+                        <Image source={Profile} className="w-12 h-12" />
                         <Image source={CountBoard} className=" h-12" />
                     </View>
                     <View>
@@ -76,9 +108,45 @@ const MainDashboard = () => {
 
                 {/* Bottom Right Corner */}
                 <View className="absolute bottom-2 right-3">
-                    <Image source={Profile} className="w-12 h-12" />
+                    <Image source={Qmark} className="w-12 h-12" />
                 </View>
-                <Text className="mt-28">x</Text>
+                <View className="absolute bottom-2 left-10">
+                    <Image
+                        source={avatarImageSource}
+                        className="w-44 h-44 rounded-lg"
+                        resizeMode="contain"
+                    />
+                </View>
+                <View className="absolute bottom-14 left-28">
+                    <Image
+                        source={LetsPlayAGame}
+                        className="w-auto h-44 rounded-lg"
+                        resizeMode="contain"
+                    />
+                </View>
+
+                <View className="absolute bottom-2">
+                    <View className="flex-row gap-2">
+                        <Image
+                            source={FunLearn}
+                            className="w-20 h-20 rounded-lg"
+                            resizeMode="contain"
+                        />
+                        <Pressable
+                            onPressIn={handlePressIn}
+                            onPressOut={handlePressOut}
+                        >
+
+                            <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+                                <Image
+                                    source={PlayGame}
+                                    className="w-20 h-20 rounded-lg"
+                                    resizeMode="contain"
+                                />
+                            </Animated.View>
+                        </Pressable>
+                    </View>
+                </View>
             </ImageBackground>
         </View>
     );

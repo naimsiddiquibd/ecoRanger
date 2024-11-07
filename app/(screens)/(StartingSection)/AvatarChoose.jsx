@@ -13,7 +13,7 @@ const avatars = [
 ];
 
 const AvatarChoose = () => {
-    const [selectedAvatar, setSelectedAvatar] = useState(avatars[1]); 
+    const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(1); // Default to the second avatar (index 1)
     const navigation = useNavigation(); // For navigating to the next screen
 
     useEffect(() => {
@@ -25,13 +25,13 @@ const AvatarChoose = () => {
 
     const handleChoose = async () => {
         console.log("hitted from avatar choosing")
-        if (selectedAvatar) {
+        if (selectedAvatarIndex !== null) {
             try {
                 // Clear all existing data in local storage
                 await AsyncStorage.clear();
                 
-                // Save the selected avatar to local storage
-                await AsyncStorage.setItem('selectedAvatar', JSON.stringify(selectedAvatar));
+                // Save the selected avatar index (1, 2, or 3) to local storage
+                await AsyncStorage.setItem('selectedAvatar', JSON.stringify(selectedAvatarIndex + 1));
                 
                 // Navigate to the next screen
                 router.push("/PersonalInformation");
@@ -42,7 +42,6 @@ const AvatarChoose = () => {
             Alert.alert("Warning", "Please select an avatar.");
         }
     };
-    
 
     const router = useRouter();
 
@@ -65,8 +64,8 @@ const AvatarChoose = () => {
                     {avatars.map((avatar, index) => (
                         <TouchableOpacity
                             key={index}
-                            onPress={() => setSelectedAvatar(avatar)}
-                            className={`rounded-lg overflow-hidden ${selectedAvatar === avatar ? 'scale-[1.2]' : ''}`}
+                            onPress={() => setSelectedAvatarIndex(index)}
+                            className={`rounded-lg overflow-hidden ${selectedAvatarIndex === index ? 'scale-[1.2]' : ''}`}
                         >
                             <Image
                                 source={avatar}
