@@ -9,22 +9,17 @@ import Location from "@/assets/images/Icons/location.png";
 import BackArrow from "@/assets/images/Icons/back-arrow.png";
 import HamMenu from "@/assets/images/Icons/hamburger-menu.png";
 import GroupPeople from "@/assets/images/Icons/group-of-people.png";
-import FunLearn from "@/assets/images/Icons/fun-and-learn.png";
-import PlayGame from "@/assets/images/Icons/play-game.png";
 import Calendar from "@/assets/images/Icons/calendar.png";
 import Qmark from "@/assets/images/Icons/question-mark.png";
 import CountBoard from "@/assets/images/Dashboard/coin-board.png";
-import LetsPlayAGame from "@/assets/images/Dashboard/message-play-game.png";
-import Game1 from "@/assets/images/Dashboard/game-1-biosphere.png";
-import Game2 from "@/assets/images/Dashboard/game-2-atmosphere.png";
-import Game3 from "@/assets/images/Dashboard/game-2-hydrosphere.png";
 import Research from "@/assets/images/Dashboard/research.png";
 
-import Atmosephere from "@/assets/images/Dashboard/atmosephere-img.png";
-import Biosphere from "@/assets/images/Dashboard/biosphere-img.png";
-import Pedosphere from "@/assets/images/Dashboard/pedosphere-img.png";
-import Hydrosphere from "@/assets/images/Dashboard/hydrosphere-img.png";
-import WhichGame from "@/assets/images/Dashboard/message-which-game-you-want-to-play.png";
+import Atmosephere from "@/assets/images/FnL/atmosephere-img.png";
+import Biosphere from "@/assets/images/FnL/biosphere-img.png";
+import Hydrosphere from "@/assets/images/FnL/hydrosphere-img.png";
+import Pedosphere from "@/assets/images/FnL/pedosphere-img.png";
+import Earth from "@/assets/images/FnL/earth.png";
+
 import avatar4Image from "@/assets/images/Characters/poki.png";
 import avatar5Image from "@/assets/images/Characters/joe.png";
 import avatar6Image from "@/assets/images/Characters/moki.png";
@@ -83,7 +78,7 @@ const FunAndLearnSelectionDashboard = () => {
 
   return (
     <View className="flex-1">
-       <StatusBar hidden={true} />
+      <StatusBar hidden={true} />
       <ImageBackground
         source={welcomeScreenBackgroundImage}
         resizeMode='cover'
@@ -120,46 +115,24 @@ const FunAndLearnSelectionDashboard = () => {
         <View className="absolute bottom-2 right-3">
           <Image source={Qmark} className="w-12 h-12" />
         </View>
-        <View className="absolute bottom-24">
+
+
+        <View className="flex-1 justify-center items-center mt-4">
           <View className="flex-row gap-0">
-            <Image
-              source={Game1}
-              className="w-32 h-auto rounded-lg"
-              resizeMode="contain"
-            />
-            <Image
-              source={Game2}
-              className="w-32 h-auto rounded-lg"
-              resizeMode="contain"
-            />
-            <Image
-              source={Game3}
-              className="w-32 h-auto rounded-lg"
-              resizeMode="contain"
-            />
-            <Image
-              source={Game3}
-              className="w-32 h-auto rounded-lg"
-              resizeMode="contain"
-            />
-           
+            <View className="flex-col gap-2">
+              <Image source={Atmosephere} resizeMode="contain" className="w-auto h-[118px]" />
+              <Image source={Pedosphere} resizeMode="contain" className="w-auto h-[118px]" />
+            </View>
+            <View className="flex-col gap-2">
+              <Image source={Biosphere} resizeMode="contain" className="w-auto h-[118px]" />
+              <Image source={Hydrosphere} resizeMode="contain" className="w-auto h-[118px]" />
+            </View>
           </View>
         </View>
-        <View className="absolute bottom-3 left-12">
-          <Image
-            source={avatarImageSource}
-            className="w-auto h-24 rounded-lg"
-            resizeMode="contain"
-          />
-        </View>
-        <View className="absolute bottom-6 left-28">
-          <Image
-            source={WhichGame}
-            className="w-auto h-20 rounded-lg"
-            resizeMode="contain"
-          />
-        </View>
 
+        <View className="absolute top-16">
+          <Image source={Earth} resizeMode="contain" className="w-auto h-auto" />
+        </View>
 
       </ImageBackground>
     </View>

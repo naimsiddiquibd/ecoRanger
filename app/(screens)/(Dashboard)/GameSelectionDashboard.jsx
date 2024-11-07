@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Image, ImageBackground, Pressable, Animated } from 'react-native';
+import { View, Text, Image, ImageBackground, Pressable, Animated, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as NavigationBar from 'expo-navigation-bar';
 import welcomeScreenBackgroundImage from "@/assets/images/s1-bg.png";
@@ -26,14 +26,17 @@ import avatar4Image from "@/assets/images/Characters/poki.png";
 import avatar5Image from "@/assets/images/Characters/joe.png";
 import avatar6Image from "@/assets/images/Characters/moki.png";
 import { router } from 'expo-router';
-import { StatusBar } from 'react-native';
 
 const GameSelectionDashboard = () => {
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState('');
   const [country, setCountry] = useState('');
   const [coins, setCoins] = useState(0);
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const scaleAtmosphereAnim = useRef(new Animated.Value(1)).current;
+  const scaleBiosphereAnim = useRef(new Animated.Value(1)).current;
+  const scaleHydrosphereAnim = useRef(new Animated.Value(1)).current;
+  const scalePedosphereAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const loadData = async () => {
@@ -58,25 +61,29 @@ const GameSelectionDashboard = () => {
 
   const avatarImageSource = avatar === 1 ? avatar4Image : avatar === 2 ? avatar5Image : avatar === 3 ? avatar6Image : null;
 
-  const handlePressIn = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 0.9,
-      useNativeDriver: true,
-    }).start();
-  };
+  const createPressHandlers = (animation, route) => ({
+    handlePressIn: () => {
+      Animated.spring(animation, {
+        toValue: 0.9,
+        useNativeDriver: true,
+      }).start();
+    },
+    handlePressOut: () => {
+      Animated.spring(animation, {
+        toValue: 1,
+        friction: 8,
+        tension: 100,
+        useNativeDriver: true,
+      }).start(() => {
+        router.push(route);
+      });
+    },
+  });
 
-  const handlePressOut = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      friction: 8,
-      tension: 100,
-      useNativeDriver: true,
-    }).start(() => {
-      // Navigate to the AvatarChoose route after animation completes
-      router.push("/GameSelectionDashboard");
-    });
-    console.log('Play pressed!');
-  };
+  const atmosphereHandlers = createPressHandlers(scaleAtmosphereAnim, "/AtmosphereGameStart");
+  const biosphereHandlers = createPressHandlers(scaleBiosphereAnim, "/BiosphereDashboard");
+  const hydrosphereHandlers = createPressHandlers(scaleHydrosphereAnim, "/HydrosphereDashboard");
+  const pedosphereHandlers = createPressHandlers(scalePedosphereAnim, "/PedosphereDashboard");
 
   return (
     <View className="flex-1">
@@ -90,7 +97,7 @@ const GameSelectionDashboard = () => {
         <View className="absolute top-3 left-3">
           <View className="flex-row gap-3">
             <Image source={Profile} className="w-12 h-12" />
-            <Image source={CountBoard} className=" h-12" />
+            <Image source={CountBoard} className="h-12" />
           </View>
           <View>
             <Image source={Settings} className="w-12 h-12" />
@@ -117,79 +124,61 @@ const GameSelectionDashboard = () => {
         <View className="absolute bottom-2 right-3">
           <Image source={Qmark} className="w-12 h-12" />
         </View>
-        <View className="absolute bottom-24 left-44">
-          <View className="flex-row gap-0">
-            <View className="relative">
-              <Image
-                source={GameBG}
-                className="w-32 h-auto rounded-lg"
-                resizeMode="contain"
-              />
-              <Image
-                source={Atmosphere}
-                className="absolute bottom-32 left-5 top-10 w-20 h-20"
-                resizeMode="contain"
-              />
-              <Text className="absolute top-[132px] text-white font-semibold left-6">Atmosphere</Text>
-            </View>
-            <View className="relative">
-              <Image
-                source={GameBG}
-                className="w-32 h-auto rounded-lg"
-                resizeMode="contain"
-              />
-              <Image
-                source={Biosphere}
-                className="absolute bottom-32 left-5 top-10 w-20 h-20"
-                resizeMode="contain"
-              />
-              <Text className="absolute top-[132px] text-white font-semibold left-8">Biosphere</Text>
-            </View>
-            <View className="relative">
-              <Image
-                source={GameBG}
-                className="w-32 h-auto rounded-lg"
-                resizeMode="contain"
-              />
-              <Image
-                source={Hydrosphere}
-                className="absolute bottom-32 left-5 top-10 w-20 h-20"
-                resizeMode="contain"
-              />
-              <Text className="absolute top-[132px] text-white font-semibold left-6">Hydrosphere</Text>
-            </View>
-            <View className="relative">
-              <Image
-                source={GameBG}
-                className="w-32 h-auto rounded-lg"
-                resizeMode="contain"
-              />
-              <Image
-                source={Pedosphere}
-                className="absolute bottom-32 left-5 top-10 w-20 h-20"
-                resizeMode="contain"
-              />
-              <Text className="absolute top-[132px] text-white font-semibold left-6">Pedosphere</Text>
-            </View>
 
-          </View>
+        {/* Game Selection Section */}
+        <View className="absolute bottom-24 left-44 flex-row gap-0">
+          {/* Atmosphere */}
+          <Pressable onPressIn={atmosphereHandlers.handlePressIn} onPressOut={atmosphereHandlers.handlePressOut}>
+            <Animated.View style={{ transform: [{ scale: scaleAtmosphereAnim }] }}>
+              <View className="relative">
+                <Image source={GameBG} className="w-32 h-auto rounded-lg" resizeMode="contain" />
+                <Image source={Atmosphere} className="absolute bottom-32 left-5 top-10 w-20 h-20" resizeMode="contain" />
+                <Text className="absolute top-[132px] text-white font-semibold left-6">Atmosphere</Text>
+              </View>
+            </Animated.View>
+          </Pressable>
+
+          {/* Biosphere */}
+          <Pressable onPressIn={biosphereHandlers.handlePressIn} onPressOut={biosphereHandlers.handlePressOut}>
+            <Animated.View style={{ transform: [{ scale: scaleBiosphereAnim }] }}>
+              <View className="relative">
+                <Image source={GameBG} className="w-32 h-auto rounded-lg" resizeMode="contain" />
+                <Image source={Biosphere} className="absolute bottom-32 left-5 top-10 w-20 h-20" resizeMode="contain" />
+                <Text className="absolute top-[132px] text-white font-semibold left-8">Biosphere</Text>
+              </View>
+            </Animated.View>
+          </Pressable>
+
+          {/* Hydrosphere */}
+          <Pressable onPressIn={hydrosphereHandlers.handlePressIn} onPressOut={hydrosphereHandlers.handlePressOut}>
+            <Animated.View style={{ transform: [{ scale: scaleHydrosphereAnim }] }}>
+              <View className="relative">
+                <Image source={GameBG} className="w-32 h-auto rounded-lg" resizeMode="contain" />
+                <Image source={Hydrosphere} className="absolute bottom-32 left-5 top-10 w-20 h-20" resizeMode="contain" />
+                <Text className="absolute top-[132px] text-white font-semibold left-6">Hydrosphere</Text>
+              </View>
+            </Animated.View>
+          </Pressable>
+
+          {/* Pedosphere */}
+          <Pressable onPressIn={pedosphereHandlers.handlePressIn} onPressOut={pedosphereHandlers.handlePressOut}>
+            <Animated.View style={{ transform: [{ scale: scalePedosphereAnim }] }}>
+              <View className="relative">
+                <Image source={GameBG} className="w-32 h-auto rounded-lg" resizeMode="contain" />
+                <Image source={Pedosphere} className="absolute bottom-32 left-5 top-10 w-20 h-20" resizeMode="contain" />
+                <Text className="absolute top-[132px] text-white font-semibold left-6">Pedosphere</Text>
+              </View>
+            </Animated.View>
+          </Pressable>
         </View>
+
+        {/* Avatar and Message */}
         <View className="absolute bottom-3 left-12">
-          <Image
-            source={avatarImageSource}
-            className="w-36 h-36 rounded-lg"
-            resizeMode="contain"
-          />
+          <Image source={avatarImageSource} className="w-36 h-36 rounded-lg" resizeMode="contain" />
         </View>
         <View className="absolute bottom-6 left-28">
-          <Image
-            source={WhichGame}
-            className="w-auto h-20 rounded-lg"
-            resizeMode="contain"
-          />
+          <Image source={WhichGame} className="w-auto h-20 rounded-lg" resizeMode="contain" />
         </View>
-
-
       </ImageBackground>
     </View>
   );

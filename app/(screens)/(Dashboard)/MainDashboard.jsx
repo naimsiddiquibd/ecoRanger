@@ -27,6 +27,7 @@ const MainDashboard = () => {
     const [country, setCountry] = useState('');
     const [coins, setCoins] = useState(0);
     const scaleAnim = useRef(new Animated.Value(1)).current;
+    const scaleFunLearnAnim = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {
         const loadData = async () => {
@@ -65,15 +66,33 @@ const MainDashboard = () => {
             tension: 100,
             useNativeDriver: true,
         }).start(() => {
-            // Navigate to the AvatarChoose route after animation completes
             router.push("/GameSelectionDashboard");
         });
         console.log('Play pressed!');
     };
 
+    const handleFunLearnPressIn = () => {
+        Animated.spring(scaleFunLearnAnim, {
+            toValue: 0.9,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handleFunLearnPressOut = () => {
+        Animated.spring(scaleFunLearnAnim, {
+            toValue: 1,
+            friction: 8,
+            tension: 100,
+            useNativeDriver: true,
+        }).start(() => {
+            router.push("/FunAndLearnSelectionDashboard");
+        });
+        console.log('FunLearn pressed!');
+    };
+
     return (
         <View className="flex-1">
-             <StatusBar hidden={true} />
+            <StatusBar hidden={true} />
             <ImageBackground
                 source={welcomeScreenBackgroundImage}
                 resizeMode='cover'
@@ -127,16 +146,23 @@ const MainDashboard = () => {
 
                 <View className="absolute bottom-2">
                     <View className="flex-row gap-2">
-                        <Image
-                            source={FunLearn}
-                            className="w-20 h-20 rounded-lg"
-                            resizeMode="contain"
-                        />
+                        <Pressable
+                            onPressIn={handleFunLearnPressIn}
+                            onPressOut={handleFunLearnPressOut}
+                        >
+                            <Animated.View style={{ transform: [{ scale: scaleFunLearnAnim }] }}>
+                                <Image
+                                    source={FunLearn}
+                                    className="w-20 h-20 rounded-lg"
+                                    resizeMode="contain"
+                                />
+                            </Animated.View>
+                        </Pressable>
+
                         <Pressable
                             onPressIn={handlePressIn}
                             onPressOut={handlePressOut}
                         >
-
                             <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
                                 <Image
                                     source={PlayGame}
