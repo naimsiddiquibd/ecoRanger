@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Image, ImageBackground, Pressable, Animated } from 'react-native';
+import Slider from '@react-native-community/slider'; // Import the Slider
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as NavigationBar from 'expo-navigation-bar';
 import welcomeScreenBackgroundImage from "@/assets/images/s1-bg.png";
@@ -13,10 +14,8 @@ import Calendar from "@/assets/images/Icons/calendar.png";
 import Qmark from "@/assets/images/Icons/question-mark.png";
 import CountBoard from "@/assets/images/Dashboard/coin-board.png";
 import Research from "@/assets/images/Dashboard/research.png";
-
+import Water from "@/assets/images/AtmosphereGame/water.png";
 import AtmosephereBG from "@/assets/images/AtmosphereGame/AtmosphereGameBg.png";
-
-
 import avatar4Image from "@/assets/images/Characters/poki.png";
 import avatar5Image from "@/assets/images/Characters/joe.png";
 import avatar6Image from "@/assets/images/Characters/moki.png";
@@ -29,6 +28,7 @@ const AtmosphereGameStart = () => {
   const [country, setCountry] = useState('');
   const [coins, setCoins] = useState(0);
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  const [waterLevel, setWaterLevel] = useState(0); // State to control water level
 
   useEffect(() => {
     const loadData = async () => {
@@ -67,7 +67,6 @@ const AtmosphereGameStart = () => {
       tension: 100,
       useNativeDriver: true,
     }).start(() => {
-      // Navigate to the AvatarChoose route after animation completes
       router.push("/GameSelectionDashboard");
     });
     console.log('Play pressed!');
@@ -82,7 +81,7 @@ const AtmosphereGameStart = () => {
         className="flex-1 justify-start items-center"
       >
         {/* Top Left Corner */}
-        <View className="absolute top-3 left-3">
+        <View className="absolute top-3 left-3 z-20">
           <View className="flex-row gap-3">
             <Image source={Profile} className="w-12 h-12" />
             <Image source={CountBoard} className=" h-12" />
@@ -93,7 +92,7 @@ const AtmosphereGameStart = () => {
         </View>
 
         {/* Top Right Corner */}
-        <View className="absolute top-3 right-3">
+        <View className="absolute top-3 right-3 z-20">
           <View className="flex-row gap-2">
             <Image source={Research} className="h-12" />
             <Image source={Calendar} className="w-12 h-12" />
@@ -103,17 +102,32 @@ const AtmosphereGameStart = () => {
         </View>
 
         {/* Bottom Left Corner */}
-        <View className="absolute bottom-3 left-3">
+        <View className="absolute bottom-3 left-3 z-20">
           <Image source={Location} className="w-12 h-12" />
           <Image source={BackArrow} className="w-12 h-12" />
         </View>
 
         {/* Bottom Right Corner */}
-        <View className="absolute bottom-2 right-3">
+        <View className="absolute bottom-2 right-3 z-20">
           <Image source={Qmark} className="w-12 h-12" />
         </View>
 
+        {/* Water level */}
+        <View style={{ height: `${waterLevel}%` }} className="w-full bg-[#6FB5FF] absolute z-10 bottom-0">
+        </View>
 
+        {/* Water Level Slider */}
+        <View className="absolute bottom-0 left-8 right-0 p-4 z-30">
+          <Slider
+            style={{ width: '30%', height: 40 }}
+            minimumValue={0}
+            maximumValue={100}
+            value={waterLevel}
+            onValueChange={(value) => setWaterLevel(value)}
+            minimumTrackTintColor="#6FB5FF"
+            maximumTrackTintColor="#000000"
+          />
+        </View>
       </ImageBackground>
     </View>
   );
