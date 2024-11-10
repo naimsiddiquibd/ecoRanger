@@ -22,7 +22,7 @@ import avatar6Image from "@/assets/images/Characters/moki.png";
 import { router } from 'expo-router';
 import { StatusBar } from 'react-native';
 
-const BiosphereGameStart = () => {
+const BiosphereGamePlayingBoard = () => {
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState('');
   const [country, setCountry] = useState('');
@@ -133,4 +133,4 @@ const BiosphereGameStart = () => {
   );
 };
 
-export default BiosphereGameStart;
+export default BiosphereGamePlayingBoard;
