@@ -117,9 +117,9 @@ const AtmosphereGameStart = () => {
         </View>
 
         {/* Water Level Slider */}
-        <View className="absolute bottom-0 left-8 right-0 p-4 z-30">
+        <View className="absolute bottom-0 left-12 right-0 p-4 z-30 ">
           <Slider
-            style={{ width: '30%', height: 40 }}
+            style={{ width: '30%', height: 40, borderRadius: 10}}
             minimumValue={0}
             maximumValue={100}
             value={waterLevel}
